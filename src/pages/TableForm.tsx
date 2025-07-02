@@ -1,36 +1,38 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
-import { TableParams } from '../types';
+"use client";
+
+import type React from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import type { TableParams } from "../types";
+import Header from "../components/Header";
 
 const TableForm: React.FC = () => {
   const navigate = useNavigate();
-  const [tableNumber, setTableNumber] = useState<string>('');
-  const [fromValue, setFromValue] = useState<string>('');
-  const [toValue, setToValue] = useState<string>('');
+  const [tableNumber, setTableNumber] = useState<string>("");
+  const [fromValue, setFromValue] = useState<string>("");
+  const [toValue, setToValue] = useState<string>("");
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const validateInputs = (): boolean => {
     const newErrors: Record<string, string> = {};
-    
-    const table = parseInt(tableNumber);
-    const from = parseInt(fromValue);
-    const to = parseInt(toValue);
+    const table = Number.parseInt(tableNumber);
+    const from = Number.parseInt(fromValue);
+    const to = Number.parseInt(toValue);
 
     if (!tableNumber || isNaN(table) || table < 1) {
-      newErrors.tableNumber = 'Enter a valid number';
+      newErrors.tableNumber = "Enter a valid number";
     }
-    
+
     if (!fromValue || isNaN(from) || from < 1) {
-      newErrors.fromValue = 'Enter a valid number';
+      newErrors.fromValue = "Enter a valid number";
     }
-    
+
     if (!toValue || isNaN(to) || to < 1) {
-      newErrors.toValue = 'Enter a valid number';
+      newErrors.toValue = "Enter a valid number";
     }
-    
+
     if (!newErrors.fromValue && !newErrors.toValue && from > to) {
-      newErrors.toValue = 'Must be greater than start value';
+      newErrors.toValue = "Must be greater than start value";
     }
 
     setErrors(newErrors);
@@ -39,34 +41,36 @@ const TableForm: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
     if (!validateInputs()) return;
 
     const params: TableParams = {
-      tableNumber: parseInt(tableNumber),
-      fromValue: parseInt(fromValue),
-      toValue: parseInt(toValue)
+      tableNumber: Number.parseInt(tableNumber),
+      fromValue: Number.parseInt(fromValue),
+      toValue: Number.parseInt(toValue),
     };
 
-    navigate('/table', { state: params });
+    navigate("/table", { state: params });
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-6">
+    <div className="h-full flex items-center justify-center pt-4">
       <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <h2 className="text-2xl font-semibold text-black mb-2">
-            Create Multiplication Table
-          </h2>
-          <p className="text-gray-600">
-            Enter the details below
+        <div className="text-center mt-20 mb-6">
+          <h1 className="text-3xl font-bold text-slate-900 mb-2">
+            Multiplication Table
+          </h1>
+          <p className="text-slate-600">
+            Generate clean, organized multiplication tables
           </p>
         </div>
 
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <div className="bg-white/80 backdrop-blur-sm rounded-lg border border-slate-200/50 p-8 shadow-xl shadow-slate-900/5">
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label htmlFor="tableNumber" className="block text-sm font-medium text-black mb-2">
+            <div className="space-y-2">
+              <label
+                htmlFor="tableNumber"
+                className="block text-sm font-semibold text-slate-900"
+              >
                 Table Number
               </label>
               <input
@@ -74,19 +78,26 @@ const TableForm: React.FC = () => {
                 id="tableNumber"
                 value={tableNumber}
                 onChange={(e) => setTableNumber(e.target.value)}
-                placeholder="e.g., 6"
-                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-black transition-colors ${
-                  errors.tableNumber ? 'border-red-500' : 'border-gray-300'
+                placeholder="Enter number (e.g., 7)"
+                className={`w-full px-4 py-3 bg-slate-50 border-2 rounded-lg focus:outline-none focus:bg-white transition-all duration-200 ${
+                  errors.tableNumber
+                    ? "border-red-300 focus:border-red-500"
+                    : "border-slate-200 focus:border-slate-900"
                 }`}
               />
               {errors.tableNumber && (
-                <p className="mt-1 text-sm text-red-600">{errors.tableNumber}</p>
+                <p className="text-sm text-red-600 font-medium">
+                  {errors.tableNumber}
+                </p>
               )}
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label htmlFor="fromValue" className="block text-sm font-medium text-black mb-2">
+              <div className="space-y-2">
+                <label
+                  htmlFor="fromValue"
+                  className="block text-sm font-semibold text-slate-900"
+                >
                   From
                 </label>
                 <input
@@ -95,17 +106,24 @@ const TableForm: React.FC = () => {
                   value={fromValue}
                   onChange={(e) => setFromValue(e.target.value)}
                   placeholder="1"
-                  className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-black transition-colors ${
-                    errors.fromValue ? 'border-red-500' : 'border-gray-300'
+                  className={`w-full px-4 py-3 bg-slate-50 border-2 rounded-md focus:outline-none focus:bg-white transition-all duration-200 ${
+                    errors.fromValue
+                      ? "border-red-300 focus:border-red-500"
+                      : "border-slate-200 focus:border-slate-900"
                   }`}
                 />
                 {errors.fromValue && (
-                  <p className="mt-1 text-sm text-red-600">{errors.fromValue}</p>
+                  <p className="text-sm text-red-600 font-medium">
+                    {errors.fromValue}
+                  </p>
                 )}
               </div>
 
-              <div>
-                <label htmlFor="toValue" className="block text-sm font-medium text-black mb-2">
+              <div className="space-y-2">
+                <label
+                  htmlFor="toValue"
+                  className="block text-sm font-semibold text-slate-900"
+                >
                   To
                 </label>
                 <input
@@ -113,23 +131,26 @@ const TableForm: React.FC = () => {
                   id="toValue"
                   value={toValue}
                   onChange={(e) => setToValue(e.target.value)}
-                  placeholder="20"
-                  className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-black transition-colors ${
-                    errors.toValue ? 'border-red-500' : 'border-gray-300'
+                  placeholder="12"
+                  className={`w-full px-4 py-3 bg-slate-50 border-2 rounded-md focus:outline-none focus:bg-white transition-all duration-200 ${
+                    errors.toValue
+                      ? "border-red-300 focus:border-red-500"
+                      : "border-slate-200 focus:border-slate-900"
                   }`}
                 />
                 {errors.toValue && (
-                  <p className="mt-1 text-sm text-red-600">{errors.toValue}</p>
+                  <p className="text-sm text-red-600 font-medium">
+                    {errors.toValue}
+                  </p>
                 )}
               </div>
             </div>
 
             <button
               type="submit"
-              className="w-full bg-black text-white px-4 py-3 rounded-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black transition-colors flex items-center justify-center gap-2 font-medium"
+              className="w-full bg-slate-900 text-white px-6 py-4 rounded-md hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-slate-900/20 transition-all duration-200 flex items-center justify-center gap-3 font-semibold group"
             >
               Generate Table
-              <ArrowRight className="w-4 h-4" />
             </button>
           </form>
         </div>

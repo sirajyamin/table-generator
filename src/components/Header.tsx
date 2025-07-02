@@ -1,5 +1,5 @@
-import React from 'react';
-import { Calculator } from 'lucide-react';
+import React from "react";
+import { Calculator } from "lucide-react";
 
 const Header: React.FC = () => {
   return (
