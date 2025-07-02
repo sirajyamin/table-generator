@@ -4,7 +4,6 @@ import type React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { TableParams } from "../types";
-import Header from "../components/Header";
 
 const TableForm: React.FC = () => {
   const navigate = useNavigate();
@@ -19,20 +18,29 @@ const TableForm: React.FC = () => {
     const from = Number.parseInt(fromValue);
     const to = Number.parseInt(toValue);
 
-    if (!tableNumber || isNaN(table) || table < 1) {
-      newErrors.tableNumber = "Enter a valid number";
+    if (!tableNumber || isNaN(table)) {
+      newErrors.tableNumber =
+        "Table Number is required and must be a valid number";
+    } else if (table < 1 || table > 100) {
+      newErrors.tableNumber = "Table Number must be between 1 and 100";
     }
 
-    if (!fromValue || isNaN(from) || from < 1) {
-      newErrors.fromValue = "Enter a valid number";
+    if (!fromValue || isNaN(from)) {
+      newErrors.fromValue =
+        "Start Value is required and must be a valid number";
+    } else if (from < 1 || from > 1000) {
+      newErrors.fromValue = "Start Value must be between 1 and 1000";
     }
 
-    if (!toValue || isNaN(to) || to < 1) {
-      newErrors.toValue = "Enter a valid number";
+    if (!toValue || isNaN(to)) {
+      newErrors.toValue = "End Value is required and must be a valid number";
+    } else if (to < 1 || to > 1000) {
+      newErrors.toValue = "End Value must be between 1 and 1000";
     }
 
     if (!newErrors.fromValue && !newErrors.toValue && from > to) {
-      newErrors.toValue = "Must be greater than start value";
+      newErrors.toValue =
+        "End Value must be greater than or equal to Start Value";
     }
 
     setErrors(newErrors);
