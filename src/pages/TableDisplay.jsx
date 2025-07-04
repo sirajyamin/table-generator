@@ -1,18 +1,16 @@
 "use client";
 
 import { ArrowLeft, RotateCcw } from "lucide-react";
-import type React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import type { TableParams, TableResult } from "../types";
 
-const TableDisplay: React.FC = () => {
+const TableDisplay = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [results, setResults] = useState<TableResult[]>([]);
+  const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const params = location.state as TableParams;
+  const params = location.state;
 
   useEffect(() => {
     if (!params) {
@@ -23,7 +21,7 @@ const TableDisplay: React.FC = () => {
     setIsLoading(true);
     setTimeout(() => {
       const { tableNumber, fromValue, toValue } = params;
-      const newResults: TableResult[] = [];
+      const newResults = [];
 
       for (let i = fromValue; i <= toValue; i++) {
         newResults.push({
@@ -38,13 +36,11 @@ const TableDisplay: React.FC = () => {
     }, 500);
   }, [params, navigate]);
 
-  if (!params) {
-    return null;
-  }
+  if (!params) return null;
 
   if (isLoading) {
     return (
-      <div className="min-h-screen  flex items-center justify-center p-4">
+      <div className="min-h-screen flex items-center justify-center p-4">
         <div className="text-center">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-slate-900 rounded-2xl mb-6">
             <div className="w-6 h-6 border-2 border-slate-300 border-t-white rounded-full animate-spin" />
@@ -162,7 +158,7 @@ const TableDisplay: React.FC = () => {
 
         <div className="text-center mt-8">
           <p className="text-sm text-slate-500">
-            Table generated successfully • Ready to print or share
+            Table generated successfully  
           </p>
         </div>
       </div>
@@ -171,4 +167,3 @@ const TableDisplay: React.FC = () => {
 };
 
 export default TableDisplay;
-

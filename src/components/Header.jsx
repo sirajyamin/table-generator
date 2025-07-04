@@ -1,7 +1,6 @@
-import React from "react";
 import { Calculator } from "lucide-react";
 
-const Header: React.FC = () => {
+const Header = () => {
   return (
     <div className="bg-white border-b border-gray-200">
       <div className="container mx-auto px-6 py-4">

@@ -1,19 +1,17 @@
 "use client";
 
-import type React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import type { TableParams } from "../types";
 
-const TableForm: React.FC = () => {
+const TableForm = () => {
   const navigate = useNavigate();
-  const [tableNumber, setTableNumber] = useState<string>("");
-  const [fromValue, setFromValue] = useState<string>("");
-  const [toValue, setToValue] = useState<string>("");
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [tableNumber, setTableNumber] = useState("");
+  const [fromValue, setFromValue] = useState("");
+  const [toValue, setToValue] = useState("");
+  const [errors, setErrors] = useState({});
 
-  const validateInputs = (): boolean => {
-    const newErrors: Record<string, string> = {};
+  const validateInputs = () => {
+    const newErrors = {};
     const table = Number.parseInt(tableNumber);
     const from = Number.parseInt(fromValue);
     const to = Number.parseInt(toValue);
@@ -47,11 +45,11 @@ const TableForm: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (!validateInputs()) return;
 
-    const params: TableParams = {
+    const params = {
       tableNumber: Number.parseInt(tableNumber),
       fromValue: Number.parseInt(fromValue),
       toValue: Number.parseInt(toValue),

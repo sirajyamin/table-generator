@@ -1,8 +1,7 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import TableForm from "./pages/TableForm";
-import TableDisplay from "./pages/TableDisplay";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Header from "./components/Header";
+import TableDisplay from "./pages/TableDisplay";
+import TableForm from "./pages/TableForm";
 
 function App() {
   return (
